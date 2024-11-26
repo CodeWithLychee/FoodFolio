@@ -2,8 +2,8 @@ import { useState } from "react";
 import { Input } from "./Input";
 import { Button } from "../Common/PrimaryButton";
 import { Loader } from "../Common/Loader";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function RegisterStudent() {
   const registerStudent = async (e) => {
@@ -12,7 +12,7 @@ function RegisterStudent() {
       setLoading(true);
       let student = {
         name: name,
-        cms_id: cms,
+        mess_id: messId, // Replaced cms_id with mess_id
         room_no: room_no,
         batch: batch,
         dept: dept,
@@ -22,32 +22,36 @@ function RegisterStudent() {
         contact: contact,
         address: address,
         dob: dob,
-        cnic: cnic,
         hostel: hostel,
-        password: password
+        password: password,
       };
-      const res = await fetch("http://localhost:3000/api/student/register-student", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(student),
-      })
+      const res = await fetch(
+        "http://localhost:3000/api/student/register-student",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(student),
+        }
+      );
       const data = await res.json();
 
       if (data.success) {
         toast.success(
-          'Student ' + data.student.name + ' Registered Successfully!', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-        })
-        setCms("");
+          "Student " + data.student.name + " Registered Successfully!",
+          {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          }
+        );
+        setMessId(""); // Reset mess_id
         setName("");
         setRoomNo("");
         setBatch("");
@@ -58,40 +62,34 @@ function RegisterStudent() {
         setContact("");
         setAddress("");
         setDob("");
-        setCnic("");
         setPassword("");
         setLoading(false);
       } else {
-        // console.log(cms);
         data.errors.forEach((err) => {
-          toast.error(
-            err.msg, {
+          toast.error(err.msg, {
             position: "top-right",
             autoClose: 3000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
-          })
-        })
+          });
+        });
         setLoading(false);
-
       }
     } catch (err) {
-      toast.error(
-        err, {
+      toast.error(err, {
         position: "top-right",
         autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
-      }
-      )
+      });
       setLoading(false);
     }
   };
 
   const hostel = JSON.parse(localStorage.getItem("hostel")).name;
-  const [cms, setCms] = useState();
+  const [messId, setMessId] = useState(); // Replaced cms with messId
   const [name, setName] = useState();
   const [room_no, setRoomNo] = useState();
   const [batch, setBatch] = useState();
@@ -102,7 +100,6 @@ function RegisterStudent() {
   const [contact, setContact] = useState();
   const [address, setAddress] = useState();
   const [dob, setDob] = useState();
-  const [cnic, setCnic] = useState();
   const [password, setPassword] = useState();
 
   const [loading, setLoading] = useState(false);
@@ -113,7 +110,11 @@ function RegisterStudent() {
         Register Student
       </h1>
       <div className="md:w-[60vw] w-full p-10 bg-neutral-950 rounded-lg shadow-xl mb-10 overflow-auto">
-        <form method="post" onSubmit={registerStudent} className="flex flex-col gap-3">
+        <form
+          method="post"
+          onSubmit={registerStudent}
+          className="flex flex-col gap-3"
+        >
           <div className="flex gap-5 flex-wrap justify-center md:w-full sw-[100vw]">
             <Input
               field={{
@@ -127,12 +128,12 @@ function RegisterStudent() {
             />
             <Input
               field={{
-                name: "cms",
-                placeholder: "Student CMS",
+                name: "mess_id", // Changed from cms to mess_id
+                placeholder: "Student Mess ID",
                 type: "number",
                 req: true,
-                value: cms,
-                onChange: (e) => setCms(e.target.value),
+                value: messId,
+                onChange: (e) => setMessId(e.target.value),
               }}
             />
             <Input
@@ -143,16 +144,6 @@ function RegisterStudent() {
                 req: true,
                 value: dob,
                 onChange: (e) => setDob(e.target.value),
-              }}
-            />
-            <Input
-              field={{
-                name: "cnic",
-                placeholder: "Student CNIC",
-                type: "text",
-                req: true,
-                value: cnic,
-                onChange: (e) => setCnic(e.target.value),
               }}
             />
           </div>
@@ -251,7 +242,7 @@ function RegisterStudent() {
               field={{
                 name: "batch",
                 placeholder: "Student Batch",
-                type: "number",
+                type: "text",
                 req: true,
                 value: batch,
                 onChange: (e) => setBatch(e.target.value),

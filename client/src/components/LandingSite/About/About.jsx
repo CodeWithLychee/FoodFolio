@@ -1,50 +1,39 @@
 import { TeamCard } from "./TeamMember";
-function About() {
+import abhiImg from "../../../assets/abhi.jpg";
+import kartikImg from "../../../assets/kartikk.jpg";
+import danveerImg from "../../../assets/x.jpg";
 
-  const ahad = {
-    name: "Abdul Ahad",
-    designation: "Front-end Engineer",
-    image:
-      "https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png",
-  };
-  const danish = {
-    name: "Muhammad Danish",
-    designation: "Backend-end Engineer",
-    image:
-      "https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png",
-  };
-  const abubakar = {
-    name: "Muhammad Abubakar",
-    designation: "Front End Developer",
-    image:
-      "https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png",
-  };
-  const muneeb = {
-    name: "Muneeb Ahmed",
-    designation: "Front End Developer",
-    image:
-      "https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png",
-  };
-  const arsal = {
-    name: "Syed Arsal",
-    designation: "Database",
-    image:
-      "https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png",
-  };
+function About() {
+  const teamMembers = [
+    {
+      name: "Abhinav Sharma",
+      designation: "Full Stack Developer",
+      image: abhiImg,
+    },
+    {
+      name: "Raghav Bhagat",
+      designation: "Full Stack Developer",
+      image: kartikImg,
+    },
+    {
+      name: "Harnoor Singh Aulakh",
+      designation: "Full Stack Developer",
+      image: danveerImg,
+    },
+  ];
 
   return (
-    <>
-      <h1 className="font-bold text-white text-center text-5xl">
+    <section className="bg-gray-900 py-16">
+      <h1 className="font-bold text-white text-center text-5xl mb-10 tracking-wide">
         Meet Our Team!
       </h1>
-      <div className="py-20 sm:py-25 flex gap-10 flex-wrap justify-center align-center">
-        <TeamCard member={ahad} />
-        <TeamCard member={danish} />
-        <TeamCard member={abubakar} />
-        <TeamCard member={arsal} />
-        <TeamCard member={muneeb} />
+      <div className="flex flex-wrap gap-12 justify-center items-center">
+        {teamMembers.map((member, index) => (
+          <TeamCard key={index} member={member} />
+        ))}
       </div>
-    </>
+    </section>
   );
 }
+
 export { About };

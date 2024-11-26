@@ -5,11 +5,11 @@ ShortCard.propTypes = {
   number: PropTypes.number.isRequired,
 };
 
-function ShortCard({ number, title }) {
+function ShortCard({ title, number }) {
   return (
-    <div className="py-5 w-full bg-neutral-950 text-white flex flex-col gap-3 items-center rounded-xl shadow-xl md:max-w-[350px]">
-      <div className="text-4xl font-bold text-blue-500">{number}</div>
-      <div className="text-lg">{title}</div>
+    <div className="bg-neutral-950 px-7 py-5 rounded-xl shadow-xl w-[250px] sm:w-[300px] h-40 flex justify-center items-center text-center">
+      <span className="text-white text-lg">{title}</span>
+      <p className="text-white text-4xl font-bold">{number}</p>
     </div>
   );
 }

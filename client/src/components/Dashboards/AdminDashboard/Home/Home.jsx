@@ -106,34 +106,35 @@ function Home() {
   };
 
   function transformApiData(apiData) {
-    // Extract complaints from the API data
-    const complaintss = apiData || [];
-  
-    // Create a Map to store complaints grouped by date
+    const complaints = apiData || [];
     const complaintMap = new Map();
-  
-    // Process each complaint
-    complaintss.forEach(complaint => {
-      // Parse the date string
-      const date = new Date(complaint.date);
-      
-      const formattedDate = date.toLocaleDateString('en-US', {
-        timeZone: 'UTC',
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit'
-      }).replace(/\.\d{3}/, '');
 
-      // Increment the count for this date
-      complaintMap.set(formattedDate, (complaintMap.get(formattedDate) || 0) + 1);
+    complaints.forEach((complaint) => {
+      const date = new Date(complaint.date);
+      const formattedDate = date.toISOString().split("T")[0]; // Format as YYYY-MM-DD for consistency
+      complaintMap.set(
+        formattedDate,
+        (complaintMap.get(formattedDate) || 0) + 1
+      );
     });
-  
-    // Convert the Map to an array of objects
-    const transformedData = Array.from(complaintMap.entries()).map(([date, count]) => ({
+
+    const today = new Date();
+    const last10Days = [];
+
+    // Generate the last 10 days
+    for (let i = 9; i >= 0; i--) {
+      const date = new Date(today);
+      date.setDate(today.getDate() - i);
+      const formattedDate = date.toISOString().split("T")[0]; // Format as YYYY-MM-DD
+      last10Days.push(formattedDate);
+    }
+
+    // Map through the last 10 days and get the complaint count
+    const transformedData = last10Days.map((date) => ({
       name: date,
-      DailyComplaints: count
+      DailyComplaints: complaintMap.get(date) || 0, // Set 0 if no complaints
     }));
-  
+
     return transformedData;
   }
 
@@ -145,23 +146,6 @@ function Home() {
   }, []);
 
   const [messReqs, setMessReqs] = useState([]);
-
-  const messIcon = (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      strokeWidth={1.5}
-      stroke="currentColor"
-      className="w-6 h-6"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z"
-      />
-    </svg>
-  );
 
   const suggestionIcon = (
     <svg
@@ -231,7 +215,6 @@ function Home() {
         <ShortCard title="Total Suggestions" number={suggestions.length} />
       </div>
       <div className="w-full flex gap-5 sm:px-20 h-80 flex-wrap items-center justify-center">
-        <List list={messReqs} title="mess" icon={messIcon} />
         {graph}
         <List list={suggestions} title="suggestions" icon={suggestionIcon} />
       </div>

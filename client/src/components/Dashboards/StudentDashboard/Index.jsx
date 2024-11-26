@@ -27,24 +27,32 @@ export default function Index() {
       ),
     },
     {
-      text: "Mess Off",
-      url: "/student-dashboard/mess",
+      text: "Mess Menu",
+      url: "/student-dashboard/mess-menu",
       svg: (
-        <svg
-          className="h-7 w-7"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          fill="none"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          {" "}
-          <path stroke="none" d="M0 0h24v24H0z" />{" "}
-          <path d="M3 19l15 -15l3 3l-6 6l2 2a14 14 0 0 1 -14 4" />
+        <svg viewBox="0 0 24 24" fill="currentColor" height="1em" width="1em">
+          <path d="M3 3a1 1 0 00-1 1v5.5c0 1.69 1.03 3.13 2.5 3.72v6.28A1.5 1.5 0 006 21a1.5 1.5 0 001.5-1.5v-6.28c1.47-.59 2.5-2.03 2.5-3.72V4a1 1 0 00-1-1 1 1 0 00-1 1v4a.5.5 0 01-.5.5A.5.5 0 017 8V4a1 1 0 00-1-1 1 1 0 00-1 1v4a.5.5 0 01-.5.5A.5.5 0 014 8V4a1 1 0 00-1-1m16.88 0c-.13 0-.26.09-.38.16L16 5.25V9h-4v2h1l1 10h6l1-10h1V9h-4V6.34l2.5-1.5c.5-.28.63-.84.34-1.34-.21-.36-.58-.55-.96-.5z" />
         </svg>
       ),
     },
+    // {
+    //   text: "Mess Off",
+    //   url: "/student-dashboard/mess",
+    //   svg: (
+    //     <svg
+    //       className="h-7 w-7"
+    //       viewBox="0 0 24 24"
+    //       strokeWidth={1.5}
+    //       stroke="currentColor"
+    //       fill="none"
+    //       strokeLinecap="round"
+    //       strokeLinejoin="round"
+    //     >
+    //       <path stroke="none" d="M0 0h24v24H0z" />
+    //       <path d="M3 19l15 -15l3 3l-6 6l2 2a14 14 0 0 1 -14 4" />
+    //     </svg>
+    //   ),
+    // },
     {
       text: "Attendance",
       url: "/student-dashboard/attendance",
@@ -99,10 +107,9 @@ export default function Index() {
           strokeLinecap="round"
           strokeLinejoin="round"
         >
-          {" "}
-          <circle cx="12" cy="12" r="10" />{" "}
-          <path d="M16 16s-1.5-2-4-2-4 2-4 2" />{" "}
-          <line x1="9" y1="9" x2="9.01" y2="9" />{" "}
+          <circle cx="12" cy="12" r="10" />
+          <path d="M16 16s-1.5-2-4-2-4 2-4 2" />
+          <line x1="9" y1="9" x2="9.01" y2="9" />
           <line x1="15" y1="9" x2="15.01" y2="9" />
         </svg>
       ),
@@ -134,7 +141,7 @@ export default function Index() {
   return (
     <div className="flex">
       <Sidebar links={links} />
-      <Topbar name={student.name} notifications={[]} />
+      <Topbar name={student?.name || "Student"} notifications={[]} />
       <div className="w-full bg-stone-900 h-screen">
         <Outlet />
       </div>

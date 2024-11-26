@@ -19,29 +19,23 @@ function List({ list, title, icon, addClasses }) {
           {list.length === 0 ? (
             <li className="mt-2 pl-3 mb-5">No new {title}</li>
           ) : (
-            list.map((item) => (
-              <li
-                className="group py-3 pl-3 rounded sm:py-4 hover:bg-neutral-700 hover:shadow-xl hover:scale-105 transition-all cursor-pointer"
-                key={item.id}
-              >
-                <div className="flex items-center space-x-4">
-                  <div className="flex-shrink-0 text-white">{icon}</div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium truncate text-white">
-                      {item.title}
-                    </p>
-                    <p className="text-sm truncate text-gray-400">
-                      {item.desc}
-                    </p>
+            list.map((item, index) => (
+              <li key={index} className="py-2 pl-3 mb-2 hover:bg-gray-700">
+                <Link to={`/admin/complaint/${item._id}`} className="flex">
+                  <div className="flex items-center gap-3 w-full">
+                    <span>{icon}</span>
+                    <div className="w-full flex justify-between items-center">
+                      <div className="flex flex-col">
+                        <span className="text-xs">{item.student.name}</span>
+                        <span className="text-sm font-medium">{item.desc}</span>
+                      </div>
+                    </div>
                   </div>
-                </div>
+                </Link>
               </li>
             ))
           )}
         </ul>
-        <Link className="py-3 text-lg text-center rounded-lg w-full text-white border-blue-600 border-2 hover:bg-blue-600 transition-all" to={title}>
-          Manage {title}
-        </Link>
       </div>
     </div>
   );

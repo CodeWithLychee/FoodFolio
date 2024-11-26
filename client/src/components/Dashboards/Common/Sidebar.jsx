@@ -3,38 +3,41 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
 Sidebar.propTypes = {
-  links: PropTypes.shape({
-    text: PropTypes.string.isRequired,
-    url: PropTypes.string.isRequired,
-    for: PropTypes.string.isRequired,
-    svg: PropTypes.element.isRequired,
-  }).isRequired,
+  links: PropTypes.arrayOf(
+    PropTypes.shape({
+      text: PropTypes.string.isRequired,
+      url: PropTypes.string.isRequired,
+      for: PropTypes.string.isRequired,
+      svg: PropTypes.element.isRequired,
+    })
+  ).isRequired,
 };
 
 function Sidebar({ links }) {
   const navigate = useNavigate();
-  let logout = () => {
+  const location = useLocation();
+  const [isOpen, setIsOpen] = useState(true);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  const toggleMenu = () => setIsOpen(!isOpen);
+
+  const setWindowDimensions = () => {
+    setWindowWidth(window.innerWidth);
+    if (window.innerWidth >= 768) {
+      setIsOpen(true);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", setWindowDimensions);
+    return () => window.removeEventListener("resize", setWindowDimensions);
+  }, []);
+
+  const logout = () => {
     localStorage.removeItem("student");
     localStorage.removeItem("token");
     navigate("/");
   };
-  const [isOpen, setIsOpen] = useState(true);
-  const location = useLocation();
-
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
-
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  const setWindowDimensions = () => {
-    setWindowWidth(window.innerWidth);
-    if(window.innerWidth >= 768) {
-      setIsOpen(true);
-    }
-  };
-  useEffect(() => {
-    window.addEventListener("resize", setWindowDimensions);
-  }, []);
 
   return (
     <div>
@@ -79,23 +82,17 @@ function Sidebar({ links }) {
           className="py-4 px-4 md:py-5 lg:py-4 gap-2 bg-blue-700 flex items-center text-2xl"
         >
           <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-6 h-6"
+            viewBox="0 0 512 512"
+            fill="currentColor"
+            height="1em"
+            width="1em"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5"
-            />
+            <path d="M368 128h.09M479.55 96h-91.06l8.92-35.66 38.32-13.05c8.15-2.77 13-11.43 10.65-19.71a16 16 0 00-20.54-10.73l-47 16a16 16 0 00-10.36 11.27L355.51 96H224.45c-8.61 0-16 6.62-16.43 15.23A16 16 0 00224 128h2.75l1 8.66A8.3 8.3 0 00236 144c39 0 73.66 10.9 100.12 31.52A121.9 121.9 0 01371 218.07a123.4 123.4 0 0110.12 29.51 7.83 7.83 0 003.29 4.88 72 72 0 0126.38 86.43 7.92 7.92 0 00-.15 5.53A96 96 0 01416 376c0 22.34-7.6 43.63-21.4 59.95a80.12 80.12 0 01-28.78 21.67 8 8 0 00-4.21 4.37 108.19 108.19 0 01-17.37 29.86 2.5 2.5 0 001.9 4.11h49.21a48.22 48.22 0 0047.85-44.14L477.4 128h2.6a16 16 0 0016-16.77c-.42-8.61-7.84-15.23-16.45-15.23z" />
+            <path d="M108.69 320a23.87 23.87 0 0117 7l15.51 15.51a4 4 0 005.66 0L162.34 327a23.87 23.87 0 0117-7h196.58a8 8 0 008.08-7.92V312a40.07 40.07 0 00-32-39.2c-.82-29.69-13-54.54-35.51-72C295.67 184.56 267.85 176 236 176h-72c-68.22 0-114.43 38.77-116 96.8A40.07 40.07 0 0016 312a8 8 0 008 8zM185.94 352a8 8 0 00-5.66 2.34l-22.14 22.15a20 20 0 01-28.28 0l-22.14-22.15a8 8 0 00-5.66-2.34h-69.4a15.93 15.93 0 00-15.76 13.17A65.22 65.22 0 0016 376c0 30.59 21.13 55.51 47.26 56 2.43 15.12 8.31 28.78 17.16 39.47C93.51 487.28 112.54 496 134 496h132c21.46 0 40.49-8.72 53.58-24.55 8.85-10.69 14.73-24.35 17.16-39.47 26.13-.47 47.26-25.39 47.26-56a65.22 65.22 0 00-.9-10.83A15.93 15.93 0 00367.34 352z" />
           </svg>{" "}
           <span className="md:hidden lg:inline">Dashboard</span>
         </Link>
         <div className="flex flex-col space-y-1 text-2xl text-white">
-          {/*eslint-disable-next-line react/prop-types*/}
           {links.map((link) => (
             <Link
               to={link.url}
